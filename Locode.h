@@ -108,15 +108,15 @@
 #include <string>
 #include <iostream>
 
-//#define __LARGE__
+// #define __LARGE__
 
-// Note:  NOLOCODE, XXXXX, MAXLOCODE, NUMLOCODE are not UN/LOCODE codes.
+// Note  NOLOCODE, XXXXX, MAXLOCODE, NUMLOCODE are not UN/LOCODE codes.
+
 
 #ifdef __LARGE__
 
 namespace LOCODE 
 { 
-// The full set. Can take a while to compile.
 constexpr int NOLOCODE  = 0;
 constexpr int XXXXX     = 114967;
 constexpr int MAXLOCODE = 115985;
@@ -126,7 +126,7 @@ constexpr int NUMLOCODE = 115985;
 // only need to be included where numeric LOCODEs i.e LOCODE::USNYC are being used 
 // it is included here for convenience
 #ifndef __LOCODES_LARGE_HEADER_H__
-#include "LOCODES_LARGE_HEADER.txt"
+#include "LOCODES_LARGE_HEADER.h"
 #endif
 
 #else
@@ -144,7 +144,7 @@ constexpr int NUMLOCODE = 26857;
 // only need to be included where numeric LOCODEs i.e LOCODE::USNYC are being used 
 // it is included here for convenience
 #ifndef __LOCODES_SMALL_HEADER_H__
-#include "LOCODES_SMALL_HEADER.txt"
+#include "LOCODES_SMALL_HEADER.h"
 #endif 
 
 #endif
@@ -188,7 +188,7 @@ public:
     Locode( const std::string &s ): m_locode(LOCODE::NOLOCODE) { setLocode(s); }
     Locode( const char *s ): m_locode(LOCODE::NOLOCODE) { if (s) setLocode(s); } 
     
-    // my numeric code for this locode e.g. LOCODE::GBLON = 13694
+    // my numeric code for this locode e.g. LOCODE::GBLON = 13844 
     operator int( void ) const { return m_locode; }
     
     // country2code i.e. GB
@@ -207,6 +207,10 @@ public:
     // the 5 letter UN/LOCODE for this location e.g. "GBLON"
     std::string
     locode( void ) const { return m_codes[m_locode]; }
+    
+    // the 3 letter subdivison code for this location e.g. LDN
+    std::string
+    subdiv( void ) const { return (m_subdiv[m_locode]) ? m_subdiv[m_locode] : "XXX"; }
     
     bool
     setLocode( const std::string &s ); // e.g. s = "GBLON"
@@ -265,6 +269,7 @@ private:
     static const float           m_position[LOCODE::NUMLOCODE][2];    
     static const char * const    m_codes[LOCODE::NUMLOCODE];
     static const char * const    m_fullNames[LOCODE::NUMLOCODE];
+    static const char * const    m_subdiv[LOCODE::NUMLOCODE];
 
 };
 
